@@ -11,7 +11,7 @@ If you want to scan the active hosts under a network
 ```
 $ ./scan.sh -H 172.15.0.0
 ```
-*** The port.sh and host.sh scripts use scan.sh as their basis. ***
+***The port.sh and host.sh scripts use scan.sh as their basis.***
 
 If you want to scan the first 1,000 active ports of a specific host
 
