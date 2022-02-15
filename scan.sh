@@ -24,6 +24,8 @@ if [ ${#} -eq 0 ]; then
 fi
 
 function scanHost {
+	separator=$(printf "+%30s+")
+	echo -e "\n${separator// /-}"
 	for host in ${hosts[@]}; do
 		echo -e "\n[*] Scanning host: $host/24"; sleep 2
 		host=$(echo $host | cut -d "." -f 1-3)
@@ -34,9 +36,11 @@ function scanHost {
 }
 
 function scanPorts {
-	echo -e "\n\n[*] Top Port: $port_range"
-	echo -e "[*] Host Target: $hosts"
-	echo -e "[*] Scanning ports for host: $hosts"; sleep 2
+	separator=$(printf "+%30s+")
+	echo -e "\n${separator// /-}"
+	echo -e "\n[*] Port: 1-$port_range"
+	echo -e "[*] Target: $hosts"; sleep 2
+	echo -e "[*] Open Ports:"
 	for port in $(seq 1 $port_range); do
 		timeout 1 bash -c "echo '' > /dev/tcp/$hosts/$port" &> /dev/null && echo -e "\t$port\t[OPEN]" &
 	done; wait
@@ -53,7 +57,9 @@ tput civis; while getopts ":H:p:h" arg; do
 done
 
 if [ $port_range ]; then
-	scanPorts; tput cnorm; exit
+	scanPorts
+	tput cnorm; exit
 fi; if [ $hosts ]; then
-	scanHost; tput cnorm; exit
+	scanHost
+	tput cnorm; exit
 fi
